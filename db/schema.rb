@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_17_140508) do
+ActiveRecord::Schema.define(version: 2022_01_18_121737) do
 
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id"
@@ -24,6 +24,22 @@ ActiveRecord::Schema.define(version: 2022_01_17_140508) do
     t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
+  create_table "order_promotions", force: :cascade do |t|
+    t.integer "promotion_id"
+    t.integer "promotion_action_id"
+    t.integer "order_id"
+    t.integer "order_item_id"
+    t.integer "free_order_item_id"
+    t.integer "adjustment_amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["free_order_item_id"], name: "index_order_promotions_on_free_order_item_id"
+    t.index ["order_id"], name: "index_order_promotions_on_order_id"
+    t.index ["order_item_id"], name: "index_order_promotions_on_order_item_id"
+    t.index ["promotion_action_id"], name: "index_order_promotions_on_promotion_action_id"
+    t.index ["promotion_id"], name: "index_order_promotions_on_promotion_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.integer "user_id"
     t.integer "total"
@@ -35,6 +51,35 @@ ActiveRecord::Schema.define(version: 2022_01_17_140508) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "promotion_actions", force: :cascade do |t|
+    t.string "type"
+    t.integer "promotion_id"
+    t.integer "product_id"
+    t.text "settings"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_promotion_actions_on_product_id"
+    t.index ["promotion_id"], name: "index_promotion_actions_on_promotion_id"
+  end
+
+  create_table "promotion_rules", force: :cascade do |t|
+    t.string "type"
+    t.integer "promotion_id"
+    t.integer "product_id"
+    t.text "settings"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_promotion_rules_on_product_id"
+    t.index ["promotion_id"], name: "index_promotion_rules_on_promotion_id"
+  end
+
+  create_table "promotions", force: :cascade do |t|
+    t.string "type"
+    t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
