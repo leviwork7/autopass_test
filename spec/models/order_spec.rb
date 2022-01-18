@@ -29,7 +29,10 @@ RSpec.describe Order, type: :model do
             minimum_amount: 6000,
             promotion: promotion)
           PromotionAction::OrderDiscount.create!(
-            calc_type: :percentage, calc_value: 0.1,
+            calculator_attributes: {
+              calc_type: :percentage,
+              calc_value: 0.1,
+            },
             promotion: promotion)
           promotion
         }
@@ -76,7 +79,11 @@ RSpec.describe Order, type: :model do
           context "每⼈只總共優惠 1000 元，先前使用 $600 折扣" do
             before do
               # 增加優惠額度：$1000
-              promotion.actions.first.update(quota_amount: 1000)
+              promotion.actions.first.update(calculator_attributes: {
+                calc_type: :percentage,
+                calc_value: 0.1,
+                quota_amount: 1000,
+              })
 
               # 先前已使用 600 折扣
               previous_order = create(:order, user: user)
@@ -103,7 +110,10 @@ RSpec.describe Order, type: :model do
               maximum_quantity: 2,
               promotion: promotion)
             PromotionAction::OrderDiscount.create!(
-              calc_type: :fixed, calc_value: 200,
+              calculator_attributes: {
+                calc_type: :fixed,
+                calc_value: 200,
+              },
               promotion: promotion)
             promotion
           }
@@ -140,7 +150,10 @@ RSpec.describe Order, type: :model do
             minimum_quantity: 5,
             promotion: promotion, product: promo_product)
           PromotionAction::OrderDiscount.create!(
-            calc_type: :fixed, calc_value: 1000,
+            calculator_attributes: {
+              calc_type: :fixed,
+              calc_value: 1000,
+            },
             promotion: promotion)
           promotion
         }
@@ -180,7 +193,10 @@ RSpec.describe Order, type: :model do
             minimum_quantity: 5,
             promotion: promotion, product: promo_product)
           PromotionAction::OrderItemDiscount.create!(
-            calc_type: :percentage, calc_value: 0.2,
+            calculator_attributes: {
+              calc_type: :percentage,
+              calc_value: 0.2,
+            },
             promotion: promotion, product: promo_product)
           promotion
         }
@@ -250,7 +266,10 @@ RSpec.describe Order, type: :model do
             period: "monthly", maximum_amount: 1000,
             promotion: promotion)
           PromotionAction::OrderDiscount.create!(
-            calc_type: :fixed, calc_value: 500,
+            calculator_attributes: {
+              calc_type: :fixed,
+              calc_value: 500,
+            },
             promotion: promotion)
           promotion
         }

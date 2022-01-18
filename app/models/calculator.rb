@@ -1,37 +1,35 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
-# Table name: promotion_actions
+# Table name: calculators
 #
-#  id           :integer          not null, primary key
-#  type         :string
-#  promotion_id :integer
-#  product_id   :integer
-#  settings     :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id              :integer          not null, primary key
+#  type            :string
+#  calculable_type :string
+#  calculable_id   :bigint
+#  settings        :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
-#  index_promotion_actions_on_product_id    (product_id)
-#  index_promotion_actions_on_promotion_id  (promotion_id)
+#  index_calculators_on_calculable_type_and_calculable_id  (calculable_type,calculable_id)
+#  index_calculators_on_id_and_type                        (id,type)
 #
-class PromotionAction < ApplicationRecord
+class Calculator < ApplicationRecord
   # extends ...................................................................
   # includes ..................................................................
   include StoreEnhanceableConcern
-  include CalculatableConcern
   # security (i.e. attr_accessible) ...........................................
   # relationships .............................................................
-  belongs_to :promotion
+  belongs_to :calculable, polymorphic: true, optional: true, inverse_of: :calculator
   # validations ...............................................................
   # callbacks .................................................................
   # scopes ....................................................................
   # additional config .........................................................
   # class methods .............................................................
   # public instance methods ...................................................
-  def perform!(order)
-    raise "Not Implement Error!"
-  end
   # protected instance methods ................................................
   # private instance methods ..................................................
 end

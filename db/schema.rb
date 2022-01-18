@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_18_121737) do
+ActiveRecord::Schema.define(version: 2022_01_18_144131) do
+
+  create_table "calculators", force: :cascade do |t|
+    t.string "type"
+    t.string "calculable_type"
+    t.bigint "calculable_id"
+    t.text "settings"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["calculable_type", "calculable_id"], name: "index_calculators_on_calculable_type_and_calculable_id"
+    t.index ["id", "type"], name: "index_calculators_on_id_and_type"
+  end
 
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id"
