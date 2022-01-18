@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### Version
 
-Things you may want to cover:
+- ruby: `2.7.2`
+- rails: `6.1.4`
+- sqlite3
 
-* Ruby version
+---
 
-* System dependencies
+### 執行測試結果
 
-* Configuration
+```shell
 
-* Database creation
+$ bundle exec rake db:prepare
+$ bundle exec rspec
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
